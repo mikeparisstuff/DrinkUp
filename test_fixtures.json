@@ -1,0 +1,124 @@
+[
+    {
+        "pk": 1,
+        "model": "users.profile",
+        "fields": {
+            "user": 1,
+            "role":"user",
+            "last_active": "2013-06-27T01:11:17.572Z"
+        }
+    },
+
+    {
+        "pk": 2,
+        "model": "users.profile",
+        "fields": {
+            "user":2,
+            "role":"user",
+            "last_active":"2013-06-27T01:11:17.572Z"
+        }
+    },
+
+    {
+        "pk":3,
+        "model": "users.profile",
+        "fields": {
+            "user":3,
+            "role":"bar",
+            "last_active":"2013-06-27T01:11:17.572Z"
+        }
+    },
+
+    {
+        "pk":1,
+        "model": "auth.user",
+        "fields": {
+            "password": "pbkdf2_sha256$10000$meWTpROmyPKA$X+GzYEFWhf6hzQyU/1RATE6ngsdG/51HyAZMWKS7M8U=",
+            "last_login": "2013-06-27T01:46:49.142Z",
+            "is_superuser": false,
+            "username": "7iOyhHkUt1nAylnP6zIGa4",
+            "first_name": "Jane",
+            "last_name": "Doe",
+            "email": "janedoe@example.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2013-06-27T01:11:17.572Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+
+    {
+        "pk":2,
+        "model": "auth.user",
+        "fields": {
+            "password": "pbkdf2_sha256$10000$meWTpROmyPKA$X+GzYEFWhf6hzQyU/1RATE6ngsdG/51HyAZMWKS7M8U=",
+            "last_login": "2013-06-27T01:46:49.142Z",
+            "is_superuser": true,
+            "username": "7iOyhHkUX1nAxlnP6zIGa4",
+            "first_name": "James",
+            "last_name": "Deer",
+            "email": "jamesdeer@example.com",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2013-06-27T01:11:17.572Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+
+    {
+        "pk":3,
+        "model": "auth.user",
+        "fields": {
+            "password": "pbkdf2_sha256$10000$meWTpROmyPKA$X+GzYEFWhf6hzQyU/1RATE6ngsdG/51HyAZMWKS7M8U=",
+            "last_login": "2013-06-27T01:46:49.142Z",
+            "is_superuser": true,
+            "username": "7iOyhHkUX1nAyhnP6zIGa4",
+            "first_name": "Homie",
+            "last_name": "G",
+            "email": "homieG@example.com",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2013-06-27T01:11:17.572Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+
+    {
+        "pk":4,
+        "model": "auth.user",
+        "fields": {
+            "password": "pbkdf2_sha256$10000$meWTpROmyPKA$X+GzYEFWhf6hzQyU/1RATE6ngsdG/51HyAZMWKS7M8U=",
+            "last_login": "2013-06-27T01:46:49.142Z",
+            "is_superuser": true,
+            "username": "7iOyhHkUX1nAxhnP6zIGa4",
+            "first_name": "Uninitiated",
+            "last_name": "Bar",
+            "email": "ubarG@example.com",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2013-06-27T01:11:17.572Z",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+
+    {
+        "pk":1,
+        "model": "bars.bar",
+        "fields": {
+            "bar_admin": 3,
+            "name":"Boylan",
+            "address1":"14th st.",
+            "address2":"address2",
+            "city":"Charlottesville",
+            "state":"Virginia",
+            "zip_code":"22903",
+            "created":"2013-06-27T01:11:17.572Z",
+            "modified":"2013-06-27T01:11:17.572Z"
+        }
+    }
+
+]

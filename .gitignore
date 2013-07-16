@@ -1,0 +1,8 @@
+.DS_Store
+*.log
+*.pot
+*.pyc
+.idea
+.vagrant
+Vagrantfile
+local_settings.py
