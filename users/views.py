@@ -4,10 +4,11 @@ from django.contrib.auth import logout
 from rest_framework import status
 from rest_framework.response import Response
 
+from core import errors
 from core.api import AuthenticatedView
 from core.api import UnauthenticatedView
+from core.constants import Constants
 from core.login import AuthUserByToken
-from core import errors
 from core.login import AuthUserByEmailPassword
 from core.login import HandleFirstTimeLogin
 from core.login import PostLoginHandler
@@ -60,7 +61,7 @@ class LoginNewUser(UnauthenticatedView):
     Expects a valid email and password
     '''
     def post(self,request, format=None):
-        return HandleFirstTimeLogin(request)
+        return HandleFirstTimeLogin(request, Constants.USER)
 
 class Logout(AuthenticatedView):
     '''

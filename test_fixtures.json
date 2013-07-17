@@ -110,6 +110,7 @@
         "model": "bars.bar",
         "fields": {
             "bar_admin": 3,
+            "menu":1,
             "name":"Boylan",
             "address1":"14th st.",
             "address2":"address2",
@@ -119,6 +120,49 @@
             "created":"2013-06-27T01:11:17.572Z",
             "modified":"2013-06-27T01:11:17.572Z"
         }
-    }
+    },
 
+    {
+        "pk":1,
+        "model": "bars.menu",
+        "fields": {
+            "name":"menu_boylan",
+            "created":"2013-06-27T01:11:17.572Z",
+            "modified":"2013-07-27T01:11:17.572Z"
+        }
+    },
+
+    {
+        "pk":1,
+        "model":"bars.drink",
+        "fields": {
+            "name":"Vodka Tonic",
+            "drink_type":"mix",
+            "created":"2013-06-27T01:11:17.572Z",
+            "modified":"2013-07-27T01:11:17.572Z"
+        }
+    },
+
+    {
+        "pk":2,
+        "model":"bars.drink",
+        "fields": {
+            "name":"Whiskey Sour",
+            "drink_type":"mix",
+            "created":"2013-06-28T01:11:17.572Z",
+            "modified":"2013-07-26T01:11:17.572Z"
+        }
+    },
+
+    {
+        "pk":1,
+        "model":"bars.menuitem",
+        "fields": {
+            "drink":1,
+            "price":10.00,
+            "menu":1,
+            "created":"2013-06-27T01:11:17.572Z",
+            "modified":"2013-07-27T01:11:17.572Z"
+        }
+    }
 ]

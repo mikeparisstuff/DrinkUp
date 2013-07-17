@@ -6,9 +6,10 @@ from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.response import Response
 
-from bars.models import Bar, Drink, DrinkPrice, Menu
+from bars.models import Bar, Drink, MenuItem, Menu
 from bars.serializers import BarSerializer, MenuSerializer
 
+from core.constants import Constants
 from core.login import HandleFirstTimeLogin
 from core.api import AuthenticatedView
 from core.api import UnauthenticatedView
@@ -23,7 +24,17 @@ class LoginNewBarAdmin(UnauthenticatedView):
     logs the bar admin in.
     '''
     def post(self, request, format=None):
-        return HandleFirstTimeLogin(request)
+        '''
+        email -- Contact email for the bar admin
+        password -- Password for the bar admin user
+        '''
+        bar_admin = HandleFirstTimeLogin(request, Constants.BAR)
+        if bar_admin:
+            return redirect('/bars/mybar/initiate/')
+        return Response(
+            '{"detail":"Invalid data to create a new bar admin"}',
+            status=status.HTTP_400_BAD_REQUEST
+        )
 
 class SetInitialInformation(AuthenticatedView):
     '''
@@ -36,7 +47,6 @@ class SetInitialInformation(AuthenticatedView):
         Create and return a new Bar.
 
         name -- The bar's name
-        menu -- The bar's Menu object
         address1 -- The bar's primary address
         address2 -- (Optional) The bar's secondary address
         city -- The bar's locality
@@ -59,14 +69,23 @@ class SetInitialInformation(AuthenticatedView):
                 zip_code=request.DATA['zip_code']
             )
         except KeyError:
-            raise KeyError('A bar must have a name, address1, city, state, and zipcode.')
+            return Response(
+                '{"detail":"A bar must have a name, address1, city, state, and zipcode."}',
+                status.HTTP_400_BAD_REQUEST
+            )
         try:
             bar.address2 = request.DATA['address2']
         except KeyError:
             pass
         validate_bar_unique(bar)
+        menu = Menu.objects.create(
+            name="menu_{}".format(bar.name.lower())
+        )
+        bar.menu = menu
         bar.save()
         serializer = BarSerializer(bar)
+        #: After initialization, the bar should be directed to their dashboard. (MyBar)
+        # return redirect('/bars/mybar/', status=status.HTTP_201_CREATED)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class BarList(UnauthenticatedView):
@@ -98,7 +117,6 @@ class MyBar(AuthenticatedView):
         Update the logged in bar's information.
 
         name -- The bar's name
-        menu -- The bar's Menu object
         address1 -- The bar's primary address
         address2 -- (Optional) The bar's secondary address
         city -- The bar's locality
@@ -126,13 +144,14 @@ class MyMenu(AuthenticatedView):
         serializer = MenuSerializer(bar.menu)
         return Response(serializer.data, status = status.HTTP_200_OK)
 
+
     def post(self, request, format=None):
         '''
         On a post, the bar is updating their drink offerings.
 
-        drinks -- A JSON array holding the drinks to add to the logged in bars menu.
-        drink_id -- The Drink object id to be added to the menu via a DrinkPrice object
-        drink_price -- The price of the drink offering on the menu.
+        drinks -- (JSON Array) A JSON array holding the drinks to add to the logged in bars menu.
+        drink_id --  (int) The Drink object id to be added to the menu via a DrinkPrice object
+        drink_price -- (float) The price of the drink offering on the menu.
 
         The data should come as in the request body in the following format.
         {
@@ -157,19 +176,22 @@ class MyMenu(AuthenticatedView):
             drinks = data['drinks']
             #: For each drink in the post, create a new DrinkPrice and add to menu
             for drink in drinks:
-                new_drink_price = DrinkPrice(
+                new_menu_item = MenuItem(
                     drink=Drink.objects.get(pk=drink['drink_id']),
                     price=drink['drink_price'],
                     menu=menu
                 )
-                new_drink_price.save()
+                new_menu_item.save()
         except KeyError:
             return Response(
                 '{"detail":"Post request needs to have a \"drinks\" value."}',
                 status = status.HTTP_400_BAD_REQUEST)
         except Drink.DoesNotExist:
             raise Http404
-        return redirect('/bars/mybar/mymenu/', status=status.HTTP_201_CREATED)
+        serializer = MenuSerializer(menu)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
 
     def put(self, request, format=None):
         '''
@@ -178,14 +200,14 @@ class MyMenu(AuthenticatedView):
         to this endpoint ( PUT will update only and DELETE will erase offerings).
 
         drinks -- JSON array holding the Drink offerings to be updated
-        drink_price_id -- The DrinkPrice object id that needs to be updated
+        menu_item_id -- The MenuItem object id that needs to be updated
         drink_price -- The new price to update the existing DrinkPrice object.
 
         Data should come in the following format.
         {
         "drinks": [
            {
-              "drink_price_id":drink_id,
+              "menu_item_id":drink_id,
               "drink_price":drink_price
            }
            ...
@@ -206,17 +228,18 @@ class MyMenu(AuthenticatedView):
             drinks = data['drinks']
             #: For each drink in drinks go through and update the entry
             for drink in drinks:
-                updated_drink_price = DrinkPrice.objects.get(pk=drink['drink_price_id'])
-                updated_drink_price.price = drink['drink_price']
-                updated_drink_price.save()
-        except DrinkPrice.DoesNotExist:
+                updated_menu_item = MenuItem.objects.get(pk=drink['menu_item_id'])
+                updated_menu_item.price = drink['drink_price']
+                updated_menu_item.save()
+        except MenuItem.DoesNotExist:
             raise Http404
         except KeyError:
             return Response(
                 '{"detail":"Put request requires a \"drinks\" variable in request body"}',
                 status=status.HTTP_400_BAD_REQUEST
             )
-        return redirect('/bars/mybar/mymenu/', status=status.HTTP_202_ACCEPTED)
+        serializer = MenuSerializer(menu)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 

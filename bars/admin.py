@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from bars.models import Bar, Drink, DrinkPrice, Menu
+from bars.models import Bar, Drink, MenuItem, Menu
 
 class BarAdmin(admin.ModelAdmin):
     list_display = (
@@ -18,7 +18,7 @@ class DrinkAdmin(admin.ModelAdmin):
         'created'
     )
 
-class DrinkPriceAdmin(admin.ModelAdmin):
+class MenuItemAdmin(admin.ModelAdmin):
     list_display = (
         'drink',
         'price',
@@ -35,5 +35,5 @@ class MenuAdmin(admin.ModelAdmin):
 
 admin.site.register(Bar, BarAdmin)
 admin.site.register(Drink, DrinkAdmin)
-admin.site.register(DrinkPrice, DrinkPriceAdmin)
+admin.site.register(MenuItem, MenuItemAdmin)
 admin.site.register(Menu, MenuAdmin)

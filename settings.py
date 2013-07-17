@@ -16,6 +16,8 @@ PACKAGE_ROOT = os.path.realpath(os.path.join(os.path.dirname(__file__), ''))
 
 REPO_ROOT = os.path.realpath(os.path.join(PACKAGE_ROOT, '..'))
 
+STRIPE_SECRET = "sk_test_mkGsLqEW6SLnZa487HYfJVLf"
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -126,6 +128,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    "PACKAGE_ROOT/templates",
 )
 
 REST_FRAMEWORK = {
@@ -158,6 +161,20 @@ INSTALLED_APPS = (
     'users',
     'bars',
 )
+
+SWAGGER_SETTINGS = {
+    "exclude_namespaces": [], # List URL namespaces to ignore
+    "api_version": '0.1', # Specify your API's version
+    "api_key": '', # An API key
+    "enabled_methods": [ # Specify which methods to enable in Swagger UI
+        'get',
+        # 'post',
+        # 'put',
+        # 'patch',
+        # 'delete'
+    ],
+}
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

@@ -120,7 +120,7 @@ class Drink(models.Model):
         return u"{}: {}".format(self.name, self.drink_type)
 
 
-class DrinkPrice(models.Model):
+class MenuItem(models.Model):
     '''
     Associate a bar's price for an individual drink.
     '''
@@ -134,7 +134,7 @@ class DrinkPrice(models.Model):
 
     menu = models.ForeignKey(
         Menu,
-        related_name='drinks'
+        related_name='menu_items'
     )
 
     created = models.DateTimeField(

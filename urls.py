@@ -8,7 +8,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 
-    url(r'^rest-api/', include('rest_framework_swagger.urls')),
+    url(r'^api-docs/', include('rest_framework_swagger.urls')),
 
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
@@ -29,7 +29,7 @@ urlpatterns = patterns('',
     url(r'^bars/bars/$', bars_views.BarList.as_view(), name='list_all_bars'),
     url(r'^bars/mybar/$', bars_views.MyBar.as_view(), name='my_bar'),
     url(r'^bars/mybar/initiate/$', bars_views.SetInitialInformation.as_view(), name='initiate_bar_information'),
-    url(r'^bars/mybar/mymenu/$', bars_views.MyMenu.as_view(), name='my_bar\'s_menu'),
+    url(r'^bars/mybar/menu/$', bars_views.MyMenu.as_view(), name='my_bar\'s_menu'),
     url(r'^bars/bar/(?P<pk>[0-9]+)/$', bars_views.BarProfile.as_view(), name='display_bar_profile'),
 
 )

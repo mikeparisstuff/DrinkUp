@@ -88,7 +88,7 @@ def CreateAndReturnNewUser(request):
     return user
 
 
-def HandleFirstTimeLogin(request):
+def HandleFirstTimeLogin(request, role):
     '''
     Handles the creation of a new first-time user to the app, returning
     the login token that will be cached on the client side.
@@ -105,7 +105,7 @@ def HandleFirstTimeLogin(request):
         secret_key = create_new_private_key()
         profile = Profile.objects.create(
             user = user,
-            role = request.DATA['role'],
+            role = role,
             api_secret = secret_key
         )
         if profile.role == Constants.USER:

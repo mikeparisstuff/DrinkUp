@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from bars.models import Bar, DrinkPrice, Menu
+from bars.models import Bar, MenuItem, Menu
 from users.serializers import UserSerializer
 
 
@@ -13,21 +13,21 @@ class BarSerializer(serializers.ModelSerializer):
         model = Bar
 
 
-class DrinkPriceSerializer(serializers.ModelSerializer):
+class MenuItemSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = DrinkPrice
+        model = MenuItem
 
 class MenuSerializer(serializers.ModelSerializer):
 
-    drinks = DrinkPriceSerializer(many=True)
+    menu_items = MenuItemSerializer(many=True)
 
     class Meta:
         model = Menu
         fields = (
             'id',
             'name',
-            'drinks',
+            'menu_items',
             'created',
             'modified',
         )
