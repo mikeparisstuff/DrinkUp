@@ -52,7 +52,11 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'drinkup_heroku_dev',
+            'NAME': 'dacccijh90jkos',
+            'USER': 'hkpakgzofbuegc',
+            'PASSWORD': 'nn3EcJi0yvs1S-lVzAZgem9KnZ',
+            'PORT': '5432',
+            'HOST': 'ec2-54-225-89-169.compute-1.amazonaws.com'
         }
     }
 
