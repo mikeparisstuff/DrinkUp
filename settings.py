@@ -2,7 +2,6 @@
 ##################################
 
 import os
-import dj_database_url
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -36,27 +35,25 @@ ZEBRA_CUSTOMER_MODEL = 'users.Profile'
 # TODO: Update email backend
 EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'drinkup_dev',                      # Or path to database file if using sqlite3.
-        'TEST_NAME': 'drinkup_dev_test',
-        # The following settings are not used with sqlite3:
-        'USER': 'django_login',
-        'PASSWORD': 'django_login',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
-    } if os.environ.get('DATABASE_URL', None) is None else dj_database_url.config()
-}
-
-# Parse the database configuration from $DATABASE_URL
-# DATABASES['default'] = dj_database_url.config()
-
-# Honr the 'X-Forwarded-Proto' header for request.is_secure()
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-# Allow all host headers
-ALLOWED_HOSTS = ['*']
+if INSTANCE_ID == 'LOCAL_VAGRANT':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'drinkup_dev',                      # Or path to database file if using sqlite3.
+            'TEST_NAME': 'drinkup_dev_test',
+            # The following settings are not used with sqlite3:
+            'USER': 'django_login',
+            'PASSWORD': 'django_login',
+            'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+            'PORT': '',                      # Set to empty string for default.
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        }
+    }
 
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
