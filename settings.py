@@ -52,6 +52,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'drinkup_heroku_dev',
         }
     }
 
