@@ -12,6 +12,8 @@ from rest_framework import exceptions
 from rest_framework import status
 from rest_framework.response import Response
 
+from payments.models import Customer
+
 from core.security import create_new_private_key
 from core.constants import Constants
 from core.base62 import base62_encode
@@ -82,6 +84,9 @@ def CreateAndReturnNewUser(request):
             access_token,
             request.DATA['email'],
             request.DATA['password'],
+        )
+        customer = Customer.create(
+            user = user
         )
     except KeyError:
         raise KeyError('User must have an email, password, and fullname')

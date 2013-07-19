@@ -2,21 +2,39 @@
 ##################################
 
 import os
+import dj_database_url
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Michael Paris', 'mlparis92@gmail.com'),
 )
+
+INSTANCE_ID = "drinkup.base"
+
+# Try to get an instance id from the environment variables.
+if os.environ.get('INSTANCE_ID', None):
+    # We found one. Override the default with it.
+    INSTANCE_ID = os.environ.get('INSTANCE_ID', INSTANCE_ID)
+else:
+    # No instance ID given; use default.
+    print "WARNING: The environment variable INSTANCE_ID is not set!"
+    print "Using default settings..."
 
 MANAGERS = ADMINS
 
 PACKAGE_ROOT = os.path.realpath(os.path.join(os.path.dirname(__file__), ''))
-
+BASE_ROOT = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.realpath(os.path.join(PACKAGE_ROOT, '..'))
 
-STRIPE_SECRET = "sk_test_mkGsLqEW6SLnZa487HYfJVLf"
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_xVc14LLPSzviT15Jc65EZdnURGG8v")
+STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_gC15p9HcVUizmm3o9GK4ypoAVPier")
+ZEBRA_ENABLE_APP = True
+ZEBRA_CUSTOMER_MODEL = 'users.Profile'
+
+# TODO: Update email backend
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 
 DATABASES = {
     'default': {
@@ -28,8 +46,18 @@ DATABASES = {
         'PASSWORD': 'django_login',
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
-    }
+    } if os.environ.get('DATABASE_URL', None) is None else dj_database_url.config()
 }
+
+# Parse the database configuration from $DATABASE_URL
+# DATABASES['default'] = dj_database_url.config()
+
+# Honr the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Allow all host headers
+ALLOWED_HOSTS = ['*']
+
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
@@ -108,6 +136,10 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+# TEMPLATE_CONTEXT_PROCESSORS = (
+#     'django.core.context_processors.request',
+# )
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -128,7 +160,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "PACKAGE_ROOT/templates",
+    "templates",
 )
 
 REST_FRAMEWORK = {
@@ -160,6 +192,9 @@ INSTALLED_APPS = (
     'core',
     'users',
     'bars',
+    'transactions',
+    'payments',
+    # 'django_forms_bootstrap',
 )
 
 SWAGGER_SETTINGS = {
@@ -204,3 +239,15 @@ LOGGING = {
         },
     }
 }
+
+##########################################################
+# Load the instance-specific settings file.              #
+# ------------------------------------------------------ #
+#                                                        #
+# Note: This needs to be the last thing in the settings  #
+# file. Anything that comes after this would override    #
+# config file for the specified INSTANCE_ID.             #
+##########################################################
+
+# TODO: When ready to deploy on dev server, set up dev and
+# production environment configs.

@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 
+from transactions import views as transactions_views
 from users import views as users_views
 from bars import views as bars_views
 
@@ -32,4 +33,9 @@ urlpatterns = patterns('',
     url(r'^bars/mybar/menu/$', bars_views.MyMenu.as_view(), name='my_bar\'s_menu'),
     url(r'^bars/bar/(?P<pk>[0-9]+)/$', bars_views.BarProfile.as_view(), name='display_bar_profile'),
 
+    # Transaction API endpoints
+    url(r'^customers/update/card/$', transactions_views.UpdateCustomerCard.as_view(), name='update_customer_card'),
+    url(r'^customers/charge/new/$', transactions_views.ChargeCustomer.as_view(), name='charge_customer'),
+    url(r'^customers/customers/$', transactions_views.CustomerList.as_view(), name='customer_list'),
+    url(r'^customers/me/$', transactions_views.MyCustomerProfile.as_view(), name='my_customer_profile')
 )

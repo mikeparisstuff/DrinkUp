@@ -99,7 +99,7 @@ class MyProfile(AuthenticatedView):
     def get(self, request, format=None):
         my_profile = request.user.get_profile()
         serializer = ProfileSerializer(my_profile)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, format=None):
         my_profile = request.user.get_profile()
