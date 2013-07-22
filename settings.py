@@ -24,7 +24,7 @@ else:
 MANAGERS = ADMINS
 
 PACKAGE_ROOT = os.path.realpath(os.path.join(os.path.dirname(__file__), ''))
-BASE_ROOT = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.realpath(os.path.join(PACKAGE_ROOT, '..'))
 
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_xVc14LLPSzviT15Jc65EZdnURGG8v")
@@ -60,10 +60,11 @@ else:
         }
     }
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Custom Authentication backends
 AUTHENTICATION_BACKENDS = (
@@ -107,7 +108,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = 'staticfiles'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -118,6 +119,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(BASE_DIR, 'static'),
 )
 
 # List of finder classes that know how to find static files in
