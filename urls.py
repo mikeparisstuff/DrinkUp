@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.conf import settings
 
 from transactions import views as transactions_views
 from users import views as users_views
@@ -12,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^api-docs/', include('rest_framework_swagger.urls')),
 
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', include(admin.site.urls)),
 
