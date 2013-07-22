@@ -6,6 +6,7 @@ import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+
 ADMINS = (
     ('Michael Paris', 'mlparis92@gmail.com'),
 )
