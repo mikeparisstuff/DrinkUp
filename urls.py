@@ -13,7 +13,6 @@ urlpatterns = patterns('',
     url(r'^api-docs/', include('rest_framework_swagger.urls')),
 
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', include(admin.site.urls)),
 
