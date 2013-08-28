@@ -54,7 +54,7 @@ class ChargeCustomer(AuthenticatedView):
             try:
                 receipt = customer.charge(
                     amount = Decimal(request.DATA['amount']),
-                    description = request.DATA['description']
+                    description = request.DATA['description'],
                 )
             except KeyError:
                 return Response(
@@ -70,6 +70,8 @@ class ChargeCustomer(AuthenticatedView):
             redirect(
                 '/customers/update/card/'
             )
+
+
 
 class UpdateCustomerCard(AuthenticatedView):
     '''

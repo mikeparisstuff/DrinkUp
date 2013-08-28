@@ -21,6 +21,7 @@ from core.base62 import base62_decode
 from core.validators import validate_email_unique
 from users.models import Profile
 from bars.models import Bar
+from transactions.models import Recipient
 
 def AuthUserByToken(request, login_token):
     '''
@@ -72,7 +73,7 @@ def PostLoginHandler(request, created=False):
 
 
 
-def CreateAndReturnNewUser(request):
+def CreateAndReturnNewUser(request, role):
     '''
     Create and return a new user with a random unique identifier as the
     username. To be used for authentication as public access token.
@@ -85,9 +86,15 @@ def CreateAndReturnNewUser(request):
             request.DATA['email'],
             request.DATA['password'],
         )
-        customer = Customer.create(
-            user = user
-        )
+        if role == Constants.USER:
+            customer = Customer.create(
+                user = user
+            )
+        # elif role == Constants.BAR:
+        #     recipient = Recipient.create(
+        #         user = user
+        #     )
+
     except KeyError:
         raise KeyError('User must have an email, password, and fullname')
     return user
@@ -98,7 +105,7 @@ def HandleFirstTimeLogin(request, role):
     Handles the creation of a new first-time user to the app, returning
     the login token that will be cached on the client side.
     '''
-    user = CreateAndReturnNewUser(request)
+    user = CreateAndReturnNewUser(request, role)
     if user == None:
         # User already exists with that email
         # TODO: Make this more robust with customized error messages.

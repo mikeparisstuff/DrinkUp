@@ -56,6 +56,7 @@ class SetInitialInformation(AuthenticatedView):
         Workflow:
         1. Prompt the bar to create an admin user and log them in.
         2. Prompt the bar for information about their bar and create here.
+           -- When creating a new 
         '''
         bar_admin = Profile.objects.get(user=request.user)
 

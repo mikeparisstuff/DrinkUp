@@ -198,6 +198,7 @@ INSTALLED_APPS = (
     'users',
     'bars',
     'transactions',
+    'stripe',
     'payments',
     # 'django_forms_bootstrap',
 )
