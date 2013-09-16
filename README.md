@@ -21,4 +21,5 @@ This now serves me as a reference for some of my new projects and was fun to bui
 
 Feel free to check out the source code. At its current state, it is pretty well implemented with Stripe and I had a lot
 of fun seeing how real time transactions with my API could automatically be seen on the Stripe dashboard. In addition, there is
-pretty extensive documentation that is generated using the Django-Rest-Swagger open source project.
+pretty extensive documentation that is generated using the Django-Rest-Swagger open source project as well as a fair 
+amount of tests that implement the Django-Nose testing framework.
